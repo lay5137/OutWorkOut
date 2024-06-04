@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         BodyWeightExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ExerciseSelectionActivity.class);
+                Intent intent = new Intent(MainActivity.this, BodyWeightExerciseActivity.class);
                 startActivity(intent);
             }
         });
