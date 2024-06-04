@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#1976D2"/> <!-- 배경색: 파란색 (원하는 색으로 변경 가능) -->
+    <corners android:radius="50dp"/> <!-- 50%로 설정하여 원형으로 만듭니다. -->
+</shape>
