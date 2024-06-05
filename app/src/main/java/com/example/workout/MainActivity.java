@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView calendarIcon = findViewById(R.id.calendar_icon);
         Button BodyWeightExercise = findViewById(R.id.bodyweight_exercise);
+        Button roadRunningButton = findViewById(R.id.road_running);
         calendarIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, BodyWeightExerciseActivity.class);
                 startActivity(intent);
             }
+        });
+
+        roadRunningButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RoadRunningActivity.class);
+            startActivity(intent);
         });
     }
 }

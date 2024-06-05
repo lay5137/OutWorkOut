@@ -33,60 +33,56 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="32dp"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:gravity="center">
 
-        <!-- 맨몸운동 Button -->
-        <Button
-            android:id="@+id/bodyweight_exercise"
+        <!-- 맨몸운동 Button with Image -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/button_background"
-            android:text="맨몸운동"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            android:gravity="center">
 
-        <!-- 로드러닝 Button -->
-        <Button
-            android:id="@+id/road_running"
+            <ImageView
+                android:id="@+id/bodyweight_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_pullup" />
+
+            <Button
+                android:id="@+id/bodyweight_exercise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:text="맨몸운동"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- 로드러닝 Button with Image -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_background"
-            android:text="로드러닝"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        android:weightSum="2">
+            <ImageView
+                android:id="@+id/running_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_running" />
 
-        <!-- 트레일러닝 Button -->
-        <Button
-            android:id="@+id/trail_running"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/button_background"
-            android:text="트레일러닝"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <!-- 플로깅 Button -->
-        <Button
-            android:id="@+id/plogging"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/button_background"
-            android:text="플로깅"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            <Button
+                android:id="@+id/road_running"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:text="로드러닝"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
