@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_EXERCISE = "exercise";
-    private static final String COLUMN_REPS = "reps";
+    private static final String COLUMN_REPS = "reps"; // 거리와 시간을 저장하는데 사용
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

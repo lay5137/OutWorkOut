@@ -75,7 +75,7 @@ public class CalendarFragment extends Fragment {
 
                     for (SetData setData : sets) {
                         TextView setTextView = new TextView(getContext());
-                        setTextView.setText(setData.getReps() + " reps");
+                        setTextView.setText(setData.getReps() + (exercise.equals("Running Time") ? " seconds" : " meters"));
                         setTextView.setTextSize(16);
                         setTextView.setTextColor(getResources().getColor(android.R.color.black));
                         exerciseSummaryContainer.addView(setTextView);
