@@ -5,10 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class CalendarFragment extends Fragment {
 
@@ -17,6 +23,7 @@ public class CalendarFragment extends Fragment {
 
     private int year;
     private int month;
+    private DatabaseHelper db;
 
     public static CalendarFragment newInstance(int year, int month) {
         CalendarFragment fragment = new CalendarFragment();
@@ -34,6 +41,7 @@ public class CalendarFragment extends Fragment {
             year = getArguments().getInt(ARG_YEAR);
             month = getArguments().getInt(ARG_MONTH);
         }
+        db = new DatabaseHelper(getContext());
     }
 
     @Override
@@ -41,6 +49,7 @@ public class CalendarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         CalendarView calendarView = view.findViewById(R.id.calendar_view);
+        LinearLayout exerciseSummaryContainer = view.findViewById(R.id.exercise_summary_container);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
@@ -49,7 +58,31 @@ public class CalendarFragment extends Fragment {
 
         calendarView.setDate(calendar.getTimeInMillis(), false, false);
 
-        // 필요한 경우 클릭 리스너 등을 추가하여 날짜 클릭 시 이벤트 처리
+        calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
+            String date = String.format(Locale.getDefault(), "%d-%02d-%02d", year, month + 1, dayOfMonth);
+            exerciseSummaryContainer.removeAllViews();
+            HashMap<String, ArrayList<SetData>> exerciseDataMap = db.getExerciseRecords(date);
+            if (exerciseDataMap.isEmpty()) {
+                Toast.makeText(getContext(), "No exercise records for this date", Toast.LENGTH_SHORT).show();
+            } else {
+                for (String exercise : exerciseDataMap.keySet()) {
+                    ArrayList<SetData> sets = exerciseDataMap.get(exercise);
+                    TextView exerciseTitle = new TextView(getContext());
+                    exerciseTitle.setText(exercise);
+                    exerciseTitle.setTextSize(18);
+                    exerciseTitle.setTextColor(getResources().getColor(android.R.color.black));
+                    exerciseSummaryContainer.addView(exerciseTitle);
+
+                    for (SetData setData : sets) {
+                        TextView setTextView = new TextView(getContext());
+                        setTextView.setText(setData.getReps() + " reps");
+                        setTextView.setTextSize(16);
+                        setTextView.setTextColor(getResources().getColor(android.R.color.black));
+                        exerciseSummaryContainer.addView(setTextView);
+                    }
+                }
+            }
+        });
 
         return view;
     }

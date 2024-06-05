@@ -8,23 +8,31 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import com.example.workout.SetRoutineActivity.SetData;
 
 public class SummaryActivity extends AppCompatActivity {
+
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
+        db = new DatabaseHelper(this);
         LinearLayout summaryContainer = findViewById(R.id.summary_container);
         Button homeButton = findViewById(R.id.home_button);
 
         Intent intent = getIntent();
         HashMap<String, ArrayList<SetData>> exerciseDataMap = (HashMap<String, ArrayList<SetData>>) intent.getSerializableExtra("exerciseDataMap");
+
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
         for (String exercise : exerciseDataMap.keySet()) {
             ArrayList<SetData> sets = exerciseDataMap.get(exercise);
@@ -32,7 +40,7 @@ public class SummaryActivity extends AppCompatActivity {
             for (SetData setData : sets) {
                 if (setData.isCompleted()) {
                     hasCheckedSet = true;
-                    break;
+                    db.addExerciseRecord(currentDate, exercise, setData.getReps()); // 데이터베이스에 저장
                 }
             }
             if (!hasCheckedSet) continue;
