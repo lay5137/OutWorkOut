@@ -11,10 +11,53 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:id="@+id/exercise_summary_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"/>
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:id="@+id/exercise_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Exercise Records Header -->
+            <TextView
+                android:id="@+id/exercise_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exercise Records"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Dynamic TextViews for exercise records will be added here -->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/running_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <!-- Running Records Header -->
+            <TextView
+                android:id="@+id/running_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Running Records"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Dynamic TextViews for running records will be added here -->
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

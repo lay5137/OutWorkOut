@@ -49,7 +49,8 @@ public class CalendarFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         CalendarView calendarView = view.findViewById(R.id.calendar_view);
-        LinearLayout exerciseSummaryContainer = view.findViewById(R.id.exercise_summary_container);
+        LinearLayout exerciseContainer = view.findViewById(R.id.exercise_container);
+        LinearLayout runningContainer = view.findViewById(R.id.running_container);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
@@ -60,26 +61,58 @@ public class CalendarFragment extends Fragment {
 
         calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
             String date = String.format(Locale.getDefault(), "%d-%02d-%02d", year, month + 1, dayOfMonth);
-            exerciseSummaryContainer.removeAllViews();
+            exerciseContainer.removeAllViews();
+            runningContainer.removeAllViews();
+
+            // Add headers
+            TextView exerciseHeader = new TextView(getContext());
+            exerciseHeader.setText("Exercise Records");
+            exerciseHeader.setTextSize(18);
+            exerciseHeader.setTextColor(getResources().getColor(android.R.color.black));
+            exerciseContainer.addView(exerciseHeader);
+
+            TextView runningHeader = new TextView(getContext());
+            runningHeader.setText("Running Records");
+            runningHeader.setTextSize(18);
+            runningHeader.setTextColor(getResources().getColor(android.R.color.black));
+            runningContainer.addView(runningHeader);
+
             HashMap<String, ArrayList<SetData>> exerciseDataMap = db.getExerciseRecords(date);
             if (exerciseDataMap.isEmpty()) {
                 Toast.makeText(getContext(), "No exercise records for this date", Toast.LENGTH_SHORT).show();
             } else {
                 for (String exercise : exerciseDataMap.keySet()) {
                     ArrayList<SetData> sets = exerciseDataMap.get(exercise);
-                    TextView exerciseTitle = new TextView(getContext());
-                    exerciseTitle.setText(exercise);
-                    exerciseTitle.setTextSize(18);
-                    exerciseTitle.setTextColor(getResources().getColor(android.R.color.black));
-                    exerciseSummaryContainer.addView(exerciseTitle);
 
-                    for (SetData setData : sets) {
-                        TextView setTextView = new TextView(getContext());
-                        String unit = exercise.equals("Running") ? " meters" : exercise.equals("Running Time") ? " seconds" : " reps";
-                        setTextView.setText(setData.getReps() + unit);
-                        setTextView.setTextSize(16);
-                        setTextView.setTextColor(getResources().getColor(android.R.color.black));
-                        exerciseSummaryContainer.addView(setTextView);
+                    if (exercise.equals("Running Time") || exercise.equals("Running")) {
+                        TextView exerciseTitle = new TextView(getContext());
+                        exerciseTitle.setText(exercise);
+                        exerciseTitle.setTextSize(18);
+                        exerciseTitle.setTextColor(getResources().getColor(android.R.color.black));
+                        runningContainer.addView(exerciseTitle);
+
+                        for (SetData setData : sets) {
+                            TextView setTextView = new TextView(getContext());
+                            String unit = exercise.equals("Running Time") ? " seconds" : " meters";
+                            setTextView.setText(setData.getReps() + unit);
+                            setTextView.setTextSize(16);
+                            setTextView.setTextColor(getResources().getColor(android.R.color.black));
+                            runningContainer.addView(setTextView);
+                        }
+                    } else {
+                        TextView exerciseTitle = new TextView(getContext());
+                        exerciseTitle.setText(exercise);
+                        exerciseTitle.setTextSize(18);
+                        exerciseTitle.setTextColor(getResources().getColor(android.R.color.black));
+                        exerciseContainer.addView(exerciseTitle);
+
+                        for (SetData setData : sets) {
+                            TextView setTextView = new TextView(getContext());
+                            setTextView.setText(setData.getReps() + " reps");
+                            setTextView.setTextSize(16);
+                            setTextView.setTextColor(getResources().getColor(android.R.color.black));
+                            exerciseContainer.addView(setTextView);
+                        }
                     }
                 }
             }
