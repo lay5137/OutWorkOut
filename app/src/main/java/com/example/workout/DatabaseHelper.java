@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_EXERCISE = "exercise";
-    private static final String COLUMN_REPS = "reps";
+    private static final String COLUMN_REPS = "reps"; // 수정: reps를 String으로 저장
 
     // 마커 테이블 추가
     private static final String TABLE_MARKER = "bar_locations";
@@ -41,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_DATE + " TEXT, "
                 + COLUMN_EXERCISE + " TEXT, "
-                + COLUMN_REPS + " INTEGER)";
+                + COLUMN_REPS + " TEXT)"; // 수정: reps를 String으로 저장
         db.execSQL(CREATE_EXERCISE_TABLE);
 
         String CREATE_MARKER_TABLE = "CREATE TABLE " + TABLE_MARKER + " ("
@@ -125,7 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // 기존 운동 기록 관련 메소드 유지
-    public void addExerciseRecord(String date, String exercise, int reps) {
+    public void addExerciseRecord(String date, String exercise, String reps) {
         SQLiteDatabase db = null;
         try {
             db = this.getWritableDatabase();
@@ -162,7 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 while (cursor.moveToNext()) {
                     String exercise = cursor.getString(exerciseIndex);
-                    int reps = cursor.getInt(repsIndex);
+                    String reps = cursor.getString(repsIndex);
 
                     SetData setData = new SetData(reps, true);
                     if (!exerciseDataMap.containsKey(exercise)) {

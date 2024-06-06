@@ -3,20 +3,20 @@ package com.example.workout;
 import java.io.Serializable;
 
 public class SetData implements Serializable {
-    int reps;
+    String reps;
     boolean completed;
 
-    public SetData(int reps, boolean completed) {
+    public SetData(String reps, boolean completed) {
         this.reps = reps;
         this.completed = completed;
     }
 
     // Getters and setters if needed
-    public int getReps() {
+    public String getReps() {
         return reps;
     }
 
-    public void setReps(int reps) {
+    public void setReps(String reps) {
         this.reps = reps;
     }
 

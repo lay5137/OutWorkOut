@@ -21,7 +21,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 
@@ -114,8 +113,8 @@ public class RoadRunningActivity extends FragmentActivity implements OnMapReadyC
         String time = String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        db.addExerciseRecord(currentDate, "Running", (int) totalDistance); // 거리 저장
-        db.addExerciseRecord(currentDate, "Running Time", seconds); // 시간 저장
+        db.addExerciseRecord(currentDate, "Running", String.valueOf((int) totalDistance)); // 거리 저장
+        db.addExerciseRecord(currentDate, "Running Time", time); // 시간 저장
 
         Toast.makeText(this, "Recorded: " + time + ", Distance: " + totalDistance + " meters", Toast.LENGTH_SHORT).show();
     }

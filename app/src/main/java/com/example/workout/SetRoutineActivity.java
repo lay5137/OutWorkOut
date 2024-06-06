@@ -56,53 +56,34 @@ public class SetRoutineActivity extends AppCompatActivity {
         Button nextButton = findViewById(R.id.next_button);
         Button finishButton = findViewById(R.id.finish_button);
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addSet();
-            }
-        });
+        addButton.setOnClickListener(v -> addSet());
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeSet();
-            }
-        });
+        deleteButton.setOnClickListener(v -> removeSet());
 
-        previousButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentExerciseIndex > 0) {
-                    saveCurrentExerciseData();
-                    currentExerciseIndex--;
-                    showExercise();
-                }
-            }
-        });
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentExerciseIndex < exercises.size() - 1) {
-                    saveCurrentExerciseData();
-                    currentExerciseIndex++;
-                    showExercise();
-                }
-            }
-        });
-
-        finishButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chronometer.stop();
-                isChronometerRunning = false;
+        previousButton.setOnClickListener(v -> {
+            if (currentExerciseIndex > 0) {
                 saveCurrentExerciseData();
-                Intent intent = new Intent(SetRoutineActivity.this, SummaryActivity.class);
-                intent.putExtra("exerciseDataMap", (Serializable) exerciseDataMap);
-                startActivity(intent);
-                finish();
+                currentExerciseIndex--;
+                showExercise();
             }
+        });
+
+        nextButton.setOnClickListener(v -> {
+            if (currentExerciseIndex < exercises.size() - 1) {
+                saveCurrentExerciseData();
+                currentExerciseIndex++;
+                showExercise();
+            }
+        });
+
+        finishButton.setOnClickListener(v -> {
+            chronometer.stop();
+            isChronometerRunning = false;
+            saveCurrentExerciseData();
+            Intent intent = new Intent(SetRoutineActivity.this, SummaryActivity.class);
+            intent.putExtra("exerciseDataMap", (Serializable) exerciseDataMap);
+            startActivity(intent);
+            finish();
         });
 
         showExercise();
@@ -129,29 +110,23 @@ public class SetRoutineActivity extends AppCompatActivity {
             EditText repsEditText = (EditText) setLayout.getChildAt(1);
             CheckBox checkBox = (CheckBox) setLayout.getChildAt(2);
             String repsText = repsEditText.getText().toString().replace(" reps", "");
-            int reps = repsText.isEmpty() ? 0 : Integer.parseInt(repsText);
             boolean completed = checkBox.isChecked();
-            sets.add(new SetData(reps, completed));
+            sets.add(new SetData(repsText, completed));
         }
         exerciseDataMap.put(exercises.get(currentExerciseIndex), sets);
     }
 
     private void addSet() {
-        addSet(0, false);
+        addSet("0", false);
     }
 
-    private void addSet(int reps, boolean completed) {
+    private void addSet(String reps, boolean completed) {
         setCount++;
         LinearLayout newSetLayout = createNewSetLayout(setCount, reps, completed);
         setContainer.addView(newSetLayout);
 
         // Add this to scroll to the bottom when a new set is added
-        scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.fullScroll(View.FOCUS_DOWN);
-            }
-        });
+        scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
     }
 
     private void removeSet() {
@@ -161,7 +136,7 @@ public class SetRoutineActivity extends AppCompatActivity {
         }
     }
 
-    private LinearLayout createNewSetLayout(int setNumber, int reps, boolean completed) {
+    private LinearLayout createNewSetLayout(int setNumber, String reps, boolean completed) {
         LinearLayout newSetLayout = new LinearLayout(this);
         newSetLayout.setOrientation(LinearLayout.HORIZONTAL);
         newSetLayout.setPadding(8, 8, 8, 8);
@@ -228,29 +203,4 @@ public class SetRoutineActivity extends AppCompatActivity {
         }
     }
 
-    public static class SetData implements Serializable {
-        int reps;
-        boolean completed;
-
-        SetData(int reps, boolean completed) {
-            this.reps = reps;
-            this.completed = completed;
-        }
-
-        public int getReps() {
-            return reps;
-        }
-
-        public void setReps(int reps) {
-            this.reps = reps;
-        }
-
-        public boolean isCompleted() {
-            return completed;
-        }
-
-        public void setCompleted(boolean completed) {
-            this.completed = completed;
-        }
-    }
 }

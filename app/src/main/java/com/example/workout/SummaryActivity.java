@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-import com.example.workout.SetRoutineActivity.SetData;
+import com.example.workout.SetData;
 
 public class SummaryActivity extends AppCompatActivity {
 
